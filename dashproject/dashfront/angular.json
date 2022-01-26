@@ -36,8 +36,7 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/jsDashio/bootstrap.js",
-              "src/jsDashio/holder.js",
-              "src/jsDashio/popper.js"
+              "src/jsDashio/holder.js"
             ]
           },
           "configurations": {
