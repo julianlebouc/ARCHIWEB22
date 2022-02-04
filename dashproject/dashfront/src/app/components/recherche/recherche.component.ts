@@ -5,11 +5,13 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './recherche.component.html',
   styleUrls: ['./recherche.component.css']
 })
-export class RechercheComponent implements OnInit {
-
+export class RechercheComponent{
+  recherche = "";
   constructor() { }
 
-  ngOnInit(): void {
+  onClick(): void{
+  	recherche = querystring.(this.body.searchbar)
+  	//envoie à l'API
   }
 
 }
