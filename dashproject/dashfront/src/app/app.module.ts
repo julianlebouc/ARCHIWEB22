@@ -15,8 +15,7 @@ import { SearchBarDirectiveDirective } from './components/recherche/search-bar-d
     ResultatRechercheComponent,
     HeaderComponent,
     RechercheComponent,
-    FooterComponent,
-    SearchBarDirectiveDirective
+    FooterComponent
   ],
   imports: [
     BrowserModule,
