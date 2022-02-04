@@ -7,7 +7,8 @@ import { ResultatRechercheComponent } from './components/resultat-recherche/resu
 import { HeaderComponent } from './components/header/header.component';
 import { RechercheComponent } from './components/recherche/recherche.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { SearchBarDirectiveDirective } from './components/recherche/search-bar-directive.directive';
+import { HttpClientModule } from '@angular/common/http';
+//import { SearchBarDirectiveDirective } from './components/recherche/search-bar-directive.directive';
 
 @NgModule({
   declarations: [
@@ -15,12 +16,13 @@ import { SearchBarDirectiveDirective } from './components/recherche/search-bar-d
     ResultatRechercheComponent,
     HeaderComponent,
     RechercheComponent,
-    FooterComponent,
-    SearchBarDirectiveDirective
+    FooterComponent
+    //SearchBarDirectiveDirective
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

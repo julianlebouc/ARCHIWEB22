@@ -36,7 +36,8 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/jsDashio/bootstrap.js",
-              "src/jsDashio/holder.js"
+              "src/jsDashio/holder.js",
+              "node_modules/spotify-web-api-node/src/spotify-web-api.js"
             ]
           },
           "configurations": {
