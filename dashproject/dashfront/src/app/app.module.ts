@@ -7,7 +7,6 @@ import { ResultatRechercheComponent } from './components/resultat-recherche/resu
 import { HeaderComponent } from './components/header/header.component';
 import { RechercheComponent } from './components/recherche/recherche.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { SearchBarDirectiveDirective } from './components/recherche/search-bar-directive.directive';
 
 @NgModule({
   declarations: [
