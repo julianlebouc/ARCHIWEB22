@@ -11,7 +11,11 @@ app.get("/Musiques", (req, res) => {
 		[{
 		"Titre" : "Macarena",
 		"Album" : "Ipseite",
-		"Artiste" : "Damso"}
+		"Artiste" : "Damso"},
+		{
+		"Titre" : "Megadose",
+		"Album" : "Agartha",
+		"Artiste" : "Vald"}
 		]
 	);
 });
