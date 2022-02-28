@@ -8,13 +8,18 @@ import { ApiService } from './../../services/api.service';
 })
 export class ResultatRechercheComponent implements OnInit {
 	Musiques:any = [];
-  constructor(private apiService: ApiService) { }
+  constructor() { }
 
   ngOnInit(): void {
-  this.apiService.GetMusiques().subscribe(res => {
-  	console.log(res)
-  	this.Musiques=res;
- 	 });
- }
 
+  }
+
+  /*
+    Recherche dans la base de données les données qui vont être affichées
+    Remplit le tableau Musiques_data
+  */
+  searchInDataBase(){
+      //A FAIRE
+  }
 }
+
