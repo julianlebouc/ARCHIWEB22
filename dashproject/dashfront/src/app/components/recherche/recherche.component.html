@@ -2,20 +2,20 @@
     <div class="container">
       <h1 class="jumbotron-heading">Viva Musica Search</h1>
 
-      <input class="searchbar" type="text" placeholder="Rechercher une musique, un artiste, un album ...">
+      <input class="searchbar" type="text" placeholder="Rechercher {{searchbarPlaceHolderText}}">
 
       <div class="choix-recherche">
             <ul>
               <li>
-                <input type="radio" id="titre" name="critere" value="titre" checked>
+                <input type="radio" id="titre" name="typesearch" value="titre" (change)="radioChangedHandler($event)" checked>
                 <label for ="titre">Titre</label>
               </li>
               <li>
-                <input type="radio" id="artiste" name="critere" value="artiste">
+                <input type="radio" id="artiste" name="typesearch" value="artiste" (change)="radioChangedHandler($event)">
                 <label for ="artiste">Artiste</label>
               </li>
               <li>
-                <input type="radio" id="album" name="critere" value="album">
+                <input type="radio" id="album" name="typesearch" value="album" (change)="radioChangedHandler($event)">
                 <label for ="album">Album</label>
               </li>
             </ul>
@@ -23,11 +23,11 @@
 
 
       <p>
-        <a href="validation" class="btn btn-primary my-2">Rechercher</a>
-          <!--  (click)="clickRechercher()" -->
-        <a href="#" class="btn btn-secondary my-2" >Inutile</a>
+        <a href="validation" class="btn btn-primary my-2" (click)="clickRechercher()">Rechercher</a>
+          <!--   -->
+        <a href="#" class="btn btn-secondary my-2" (click)="loginSpotify();">Connexion Spotify</a>
+
       </p>
     </div>
   </section>
-
 
