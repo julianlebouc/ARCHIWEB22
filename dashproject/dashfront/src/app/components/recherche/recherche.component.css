@@ -1,9 +1,31 @@
-ul{
-  list-style: none;
-
+.choix-recherche ul, .choix-recherche li
+{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
 }
 
-ul li{
-  display: table-cell;
-
+.choix-recherche > ul
+{
+  display: block;
+  margin: auto;
+  text-align: center;
 }
+.choix-recherche > ul > li
+{
+  margin-left: 10px;
+  margin-right: 10px;
+  display: inline-block;
+  text-align: left;
+}
+
+.choix-recherche > ul > li > label
+{
+  padding: 5px;
+}
+
+.searchbar
+{
+  width: 400px;
+}
+
