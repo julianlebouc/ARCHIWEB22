@@ -19,7 +19,9 @@ export class ApiService {
   }
 
   GetMusiques(type_recherche: number){
-  	
+  	const { MongoClient, ServerApiVersion } = require('mongodb');
+	const uri = "mongodb+srv://Moriceau_Bastien:<81057273>@cluster0.lylgl.mongodb.net/API?retryWrites=true&w=majority";
+	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 	let _url: string = "";
     	switch(type_recherche){
       		case 0: //GET BY TRACK
