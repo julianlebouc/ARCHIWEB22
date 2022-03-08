@@ -24,7 +24,7 @@ app.get("/Musiques", (req, res) => {
 var SpotifyWebApi = require('spotify-web-api-node');
 
 var clientId = 'd119537df82148ad80691b7349e6e31b',
-  clientSecret = '46a5d2b6d4b24c8b8a917f0b48346109';
+  clientSecret = 'e0a7de037f67461f8629935619c0b324';
 
 // Create the api object with the credentials
 var spotifyApi = new SpotifyWebApi({
@@ -64,4 +64,3 @@ spotifyApi.clientCredentialsGrant().then(
 app.listen(port, () => {
 	console.log('Server running on port 3080');
 });
-
