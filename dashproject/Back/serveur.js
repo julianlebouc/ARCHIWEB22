@@ -6,16 +6,11 @@ const app = express(),
 
 app.use(cors());
 
-app.get("/Musiques", (req, res) => {
+app.get("/Token", (req, res) => {
 	res.json(
 		[{
-		"Titre" : "Macarena",
-		"Album" : "Ipseite",
-		"Artiste" : "Damso"},
-		{
-		"Titre" : "Megadose",
-		"Album" : "Agartha",
-		"Artiste" : "Vald"}
+		"Token" : data.body['access_token'],
+		"RefreshToken" : data.body['refresh_token']}
 		]
 	);
 });
