@@ -50,7 +50,7 @@ export class RechercheComponent{
         break;
     }
 
-	  this.apiService.GetMusiques(typeRecherche).subscribe(res => {
+	  this.fillDataBase(typeRecherche).subscribe(res => {
 	    console.log(res);
 	    this.Musiques=res;
 	  });
@@ -66,10 +66,10 @@ export class RechercheComponent{
 
 
 	/*
-	  Récupère la valeur de this.Musiques et rempli la base de donnée
+	  Lance la requete qui remplie la base de donnée
 	*/
-	fillDataBase(): void{
-	  //A FAIRE
+	fillDataBase(type_recherche: number): void{
+	  this.apiService.GetMusiques(type_recherche);
 	}
 
 }

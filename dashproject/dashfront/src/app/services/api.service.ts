@@ -9,6 +9,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 export class ApiService {
 
   REST_API: string = 'http://127.0.0.1:3080/Token';
+  
 
   constructor(private httpClient: HttpClient) { }
 
@@ -18,22 +19,40 @@ export class ApiService {
   }
 
   GetMusiques(type_recherche: number){
-    let _url: string = "";
-    switch(type_recherche)
-    {
-      case 0: //GET BY TRACK
-        _url = './assets/get_track.json'; //Remplacer par l'url spotify : https://api.spotify.com/v1/tracks/id
-        break;
-      case 1: //ARTISTE
-        _url = './assets/get_artiste.json'; //Remplacer par l'url spotify : https://api.spotify.com/v1/artists/id
-        break;
-      case 2: //ALBUM
-        _url = './assets/get_album.json'; //Remplacer par l'url spotify : https://api.spotify.com/v1/albums/id
-        break;
-    }
-  	console.log(this.httpClient.get(`${_url}`));
-  	return this.httpClient.get(`${_url}`);
+  	
+	let _url: string = "";
+    	switch(type_recherche){
+      		case 0: //GET BY TRACK
+        _url = 'https://api.spotify.com/v1/tracks/id';
+        	break;
+      		case 1: //ARTISTE
+        _url = 'https://api.spotify.com/v1/artists/id';
+        	break;
+      		case 2: //ALBUM
+        _url = 'https://api.spotify.com/v1/albums/id';
+        	break;
+    	}
+    	//requete
+    	
+	client.connect(err => {
+	 	const collection = client.db("API").collection("Musiques");
+	  	collection.insertMany(); //mettre le json modifié
+	  	client.close();
+	});
 	}
+	
+   RetourMusique(){
+   	const { MongoClient, ServerApiVersion } = require('mongodb');
+	const uri = "mongodb+srv://Moriceau_Bastien:<81057273>@cluster0.lylgl.mongodb.net/API?retryWrites=true&w=majority";
+	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+	client.connect(err => {
+  		const collection = client.db("API").collection("Musiques");
+  		const findResult = await collection.find();
+  		const tableau = findResult.toArray();
+  	client.close();
+	});
+	return tableau;
+   }
 }
 
 

@@ -19,7 +19,7 @@ export class ResultatRechercheComponent implements OnInit {
     Remplit le tableau Musiques_data
   */
   searchInDataBase(){
-      //A FAIRE
+      Musiques = this.apiService.RetourMusique();
   }
 }
 
