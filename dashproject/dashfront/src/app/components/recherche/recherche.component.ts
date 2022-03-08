@@ -23,6 +23,9 @@ export class RechercheComponent{
     this.apiService.GetToken().subscribe(res => {
       console.log(res);
       this.Token=res;
+
+      console.log("TOKEN ="+this.Token[0].Token);
+      console.log("REFRESHTOKEN ="+this.Token[0].RefreshToken);
     });
   }
 
@@ -70,4 +73,3 @@ export class RechercheComponent{
 	}
 
 }
-

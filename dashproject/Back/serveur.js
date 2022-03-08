@@ -1,19 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 
-const app = express(), 
+const app = express(),
 	port = 3080;
 
 app.use(cors());
 
-app.get("/Token", (req, res) => {
-	res.json(
-		[{
-		"Token" : data.body['access_token'],
-		"RefreshToken" : data.body['refresh_token']}
-		]
-	);
-});
+var token = "";
+var refresh = "";
+
+
 
  //Connexion à spotify, récupération de l'access token
 var SpotifyWebApi = require('spotify-web-api-node');
@@ -42,13 +38,26 @@ var spotifyApi = new SpotifyWebApi({
 // Retrieve an access token.
 
 spotifyApi.clientCredentialsGrant().then(
-	function(data) {
+	function(data, token, refresh) {
 	console.log('The access token expires in ' + data.body['expires_in']);
 	console.log('The access token is ' + data.body['access_token']);
 
 	 // Save the access token so that it's used in future calls
 	 spotifyApi.setAccessToken(data.body['access_token']);
 	 spotifyApi.setRefreshToken(data.body['refresh_token']);
+	token = data.body['access_token'];
+	refresh = data.body['refresh_token'];
+
+	app.get("/Token", (req, res) => {
+	res.json(
+		[
+			{
+				"Token" : token,
+				"RefreshToken" : refresh
+			}
+		]
+	);
+	});
 	 },
 	 function(err) {
 	   console.log('Something went wrong when retrieving an access token', err);
