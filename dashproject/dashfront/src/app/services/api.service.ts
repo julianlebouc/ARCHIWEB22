@@ -12,7 +12,7 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getToken(){
+  GetToken(){
     console.log(this.httpClient.get(`${this.REST_API}`));
   	return this.httpClient.get(`${this.REST_API}`);
   }
