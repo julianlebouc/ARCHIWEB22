@@ -8,7 +8,7 @@ import { ApiService } from './../../services/api.service';
 })
 export class RechercheComponent{
   recherche = "";
-  token ="";
+  Token:any =[];
   isConnected=false;
   sParam = "";
   Musiques:any = [];
@@ -18,6 +18,13 @@ export class RechercheComponent{
 
 
   constructor(private apiService: ApiService) {}
+
+  ngOnInit(): void{
+    this.apiService.GetToken().subscribe(res => {
+      console.log(res);
+      this.Token=res;
+    });
+  }
 
 	/*
 	  Fonction appellée lors du clic sur le bouton recherche

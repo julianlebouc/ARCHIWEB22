@@ -8,7 +8,14 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 })
 export class ApiService {
 
+  REST_API: string = 'http://127.0.0.1:3080/Token';
+
   constructor(private httpClient: HttpClient) { }
+
+  getToken(){
+    console.log(this.httpClient.get(`${this.REST_API}`));
+  	return this.httpClient.get(`${this.REST_API}`);
+  }
 
   GetMusiques(type_recherche: number){
     let _url: string = "";
