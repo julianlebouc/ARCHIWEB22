@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './../../services/api.service';
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-recherche',
@@ -26,6 +27,34 @@ export class RechercheComponent{
 
       console.log("TOKEN ="+this.Token[0].Token);
       console.log("REFRESHTOKEN ="+this.Token[0].RefreshToken);
+      let search_query = encodeURI('megadose');
+      // Make Spotify API call
+      // Note: We are using the track API endpoint.
+      $.ajax({
+        url: `https://api.spotify.com/v1/search?q=${search_query}&type=track`,
+        type: 'GET',
+        headers: {
+            'Authorization' : 'Bearer ' + this.Token[0].Token
+        },
+        success: function(data: any) {
+          // Load our songs from Spotify into our page
+          let num_of_tracks = data.tracks.items.length;
+          let count = 0;
+          // Max number of songs is 12
+          const max_songs = 12;
+          while(count < max_songs && count < num_of_tracks){
+            // Extract the id of the FIRST song from the data object
+            let id = data.tracks.items[count].id;
+            console.log("id="+id)
+            // Constructing two different iframes to embed the song
+            let src_str = `https://open.spotify.com/embed/track/${id}`;
+            let iframe = `<div class='song'><iframe src=${src_str} frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></div>`;
+            let parent_div = $('#song_'+ count);
+            parent_div.html(iframe);
+            count++;
+          }
+        }
+      }); // End of Spotify ajax call
     });
   }
 
@@ -62,14 +91,6 @@ export class RechercheComponent{
     this.selectedType = event.target.value;
     this.searchbarPlaceHolderText = "un " + this.selectedType;
   }
-
-
-
-	/*
-	  Lance la requete qui remplie la base de donnée
-	*/
-	/*fillDataBase(type_recherche: number): void{
-	  this.apiService.GetMusiques(type_recherche);
-	}*/
-
 }
+
+

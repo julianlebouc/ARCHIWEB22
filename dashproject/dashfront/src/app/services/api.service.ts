@@ -32,6 +32,7 @@ export class ApiService {
         	break;
     	}
     	//requete
+    	
     	console.log(this.httpClient.get('${_url}'));
     	return this.httpClient.get('${_url}');
 	}
