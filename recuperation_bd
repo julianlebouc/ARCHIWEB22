@@ -1,9 +1,0 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://Moriceau_Bastien:<81057273>@cluster0.lylgl.mongodb.net/API?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  const collection = client.db("API").collection("Musiques");
-  const findResult = await collection.find();
-  const tableau = findResult.toArray(); //prendre et répartir
-  client.close();
-});
