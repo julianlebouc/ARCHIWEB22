@@ -18,8 +18,8 @@ export class ResultatRechercheComponent implements OnInit {
     Recherche dans la base de données les données qui vont être affichées
     Remplit le tableau Musiques_data
   */
-  searchInDataBase(){
+  /*searchInDataBase(){
       Musiques = this.apiService.RetourMusique();
-  }
+  }*/
 }
 

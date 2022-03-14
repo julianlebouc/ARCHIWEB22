@@ -19,9 +19,6 @@ export class ApiService {
   }
 
   GetMusiques(type_recherche: number){
-  	const { MongoClient, ServerApiVersion } = require('mongodb');
-	const uri = "mongodb+srv://Moriceau_Bastien:<81057273>@cluster0.lylgl.mongodb.net/API?retryWrites=true&w=majority";
-	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 	let _url: string = "";
     	switch(type_recherche){
       		case 0: //GET BY TRACK
@@ -35,26 +32,10 @@ export class ApiService {
         	break;
     	}
     	//requete
-    	
-	client.connect(err => {
-	 	const collection = client.db("API").collection("Musiques");
-	  	collection.insertMany(); //mettre le json modifié
-	  	client.close();
-	});
+    	console.log(this.httpClient.get('${_url}'));
+    	return this.httpClient.get('${_url}');
 	}
 	
-   RetourMusique(){
-   	const { MongoClient, ServerApiVersion } = require('mongodb');
-	const uri = "mongodb+srv://Moriceau_Bastien:<81057273>@cluster0.lylgl.mongodb.net/API?retryWrites=true&w=majority";
-	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-	client.connect(err => {
-  		const collection = client.db("API").collection("Musiques");
-  		const findResult = await collection.find();
-  		const tableau = findResult.toArray();
-  	client.close();
-	});
-	return tableau;
-   }
 }
 
 
