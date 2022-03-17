@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from './../../services/api.service';
 import * as $ from "jquery";
 
+
+
+
+
+
 @Component({
   selector: 'app-recherche',
   templateUrl: './recherche.component.html',
@@ -13,6 +18,7 @@ export class RechercheComponent{
   isConnected=false;
   sParam = "";
   Musiques:any = [];
+  urlPlayer:String = "https://open.spotify.com/embed/track/63Ip2RzAZTzdKNxAhFPNxh";
 
   selectedType: string = ""; //Type de recherche sélectionné
   searchbarPlaceHolderText: string = "un titre";
@@ -92,5 +98,3 @@ export class RechercheComponent{
     this.searchbarPlaceHolderText = "un " + this.selectedType;
   }
 }
-
-

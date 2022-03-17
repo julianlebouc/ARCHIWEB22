@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 //import { SearchBarDirectiveDirective } from './components/recherche/search-bar-directive.directive';
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
