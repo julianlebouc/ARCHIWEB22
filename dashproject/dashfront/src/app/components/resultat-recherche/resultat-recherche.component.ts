@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ApiService } from './../../services/api.service';
+import { Track } from '../../models/Track';
 
 @Component({
   selector: 'app-resultat-recherche',
@@ -8,18 +9,20 @@ import { ApiService } from './../../services/api.service';
 })
 export class ResultatRechercheComponent implements OnInit {
 	Musiques:any = [];
-  constructor() { }
+  Tracks!: Track[];
+  @HostBinding()
+  researchValue:string = "undefined";
+
+  constructor(private apiService: ApiService) { }
+
 
   ngOnInit(): void {
-
+    //Attente d'un évènement provenant du service API, contenant le terme de la recherche
+    this.apiService.change.subscribe(tracks => {
+      this.Tracks = tracks;
+      console.log(tracks);
+      //console.log("RESULTAT-RECH , researchValue = " + this.researchValue);
+    });
   }
 
-  /*
-    Recherche dans la base de données les données qui vont être affichées
-    Remplit le tableau Musiques_data
-  */
-  /*searchInDataBase(){
-      Musiques = this.apiService.RetourMusique();
-  }*/
 }
-

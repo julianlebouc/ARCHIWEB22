@@ -9,6 +9,7 @@ import { RechercheComponent } from './components/recherche/recherche.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { MusiqueComponent } from './components/musique/musique.component';
 //import { SearchBarDirectiveDirective } from './components/recherche/search-bar-directive.directive';
 
 
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     ResultatRechercheComponent,
     HeaderComponent,
     RechercheComponent,
-    FooterComponent
+    FooterComponent,
+    MusiqueComponent
   ],
   imports: [
     BrowserModule,

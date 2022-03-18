@@ -2,7 +2,7 @@
     <div class="container">
       <h1 class="jumbotron-heading">Viva Musica Search</h1>
 
-      <input class="searchbar" id="barre_recherche" type="text" placeholder="Rechercher {{searchbarPlaceHolderText}}">
+      <input #searchbar class="searchbar" id="barre_recherche" type="text" placeholder="Rechercher {{searchbarPlaceHolderText}}">
 
       <div class="choix-recherche">
             <ul>
@@ -23,7 +23,7 @@
 
 
       <p>
-        <a href="validation" class="btn btn-primary my-2" (click)="clickRechercher()">Rechercher</a>
+        <a class="btn btn-primary my-2" (click)="clickRechercher(searchbar.value)">Rechercher</a>
       </p>
 
       <!--  <div class='song'>

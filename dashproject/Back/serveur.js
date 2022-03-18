@@ -9,6 +9,16 @@ app.use(cors());
 var token = "";
 var refresh = "";
 
+//Pour éviter les erreurs de CORS
+app.use((req,res,next) => {
+  res.setHeader('Access-Control-Allow-Origin',
+  '*');
+  res.setHeader('Access-Control-Allow-Headers',
+  'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods',
+  'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
 
 
  //Connexion à spotify, récupération de l'access token
@@ -37,32 +47,34 @@ var spotifyApi = new SpotifyWebApi({
 
 // Retrieve an access token.
 
-spotifyApi.clientCredentialsGrant().then(
-	function(data, token, refresh) {
-	console.log('The access token expires in ' + data.body['expires_in']);
-	console.log('The access token is ' + data.body['access_token']);
 
-	 // Save the access token so that it's used in future calls
-	 spotifyApi.setAccessToken(data.body['access_token']);
-	 spotifyApi.setRefreshToken(data.body['refresh_token']);
-	token = data.body['access_token'];
-	refresh = data.body['refresh_token'];
 
-	app.get("/Token", (req, res) => {
-	res.json(
-		[
-			{
-				"Token" : token,
-				"RefreshToken" : refresh
-			}
-		]
+app.get("/Token", (req, res) => {
+	spotifyApi.clientCredentialsGrant().then(
+		function(data, token, refresh) {
+		console.log('The access token expires in ' + data.body['expires_in']);
+		console.log('The access token is ' + data.body['access_token']);
+
+		 // Save the access token so that it's used in future calls
+		spotifyApi.setAccessToken(data.body['access_token']);
+		spotifyApi.setRefreshToken(data.body['refresh_token']);
+		token = data.body['access_token'];
+		refresh = data.body['refresh_token'];
+
+		res.status(200).json(
+				{
+					token: token,
+					refreshToken: refresh
+				}
+		);
+
+		 },
+		 function(err) {
+		   console.log('Something went wrong when retrieving an access token', err);
+		 }
 	);
-	});
-	 },
-	 function(err) {
-	   console.log('Something went wrong when retrieving an access token', err);
-	 }
-);
+});
+
 
 
 app.listen(port, () => {
