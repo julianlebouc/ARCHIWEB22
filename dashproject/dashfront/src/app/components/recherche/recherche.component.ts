@@ -100,7 +100,60 @@ export class RechercheComponent{
             break;
           //Regroupement des données par artiste
           case "artiste": {
-            
+            let tracks: Track[] = [];
+            // Make Spotify API call
+            // Note: We are using the track API endpoint.
+            let search_query = encodeURI(value);
+            console.log("Recherche de " + search_query + " type sélectiooné : "+ this.selectedType +" avec token " + token);
+            $.ajax({
+              url: `https://api.spotify.com/v1/search?q=${search_query}&type=artist`,
+              type: 'GET',
+              headers: {
+                  'Authorization' : 'Bearer ' + token
+              },
+              success: function(data: any) {
+
+                // Load our songs from Spotify into our page
+                let artist_id = data.artists.items[0].id;
+                let artist_name = data.artists.items[0].name;
+                console.log("name : " + artist_name + "id: " + artist_id);
+
+                let id_artiste = encodeURI(artist_id);
+                console.log("Recherche de " + id_artiste +" avec token " + token);
+
+                //APPEL DE GET ARTIST's TOP TRACK request
+                $.ajax({
+                  url: `https://api.spotify.com/v1/artists/${id_artiste}/top-tracks?market=FR`,
+                  type: 'GET',
+                  headers: {
+                      'Authorization' : 'Bearer ' + token
+                  },
+                  success: function(data: any) {
+
+                    // Load our songs from Spotify into our page
+                    let num_of_tracks = data.tracks.length;
+                    console.log("Number of tracks : " + num_of_tracks);
+
+
+                    let count = 0;
+                    // Max number of songs is 12
+                    const max_songs = 20;
+                    while(count < max_songs && count < num_of_tracks){
+                      // Extract the id of the FIRST song from the data object
+
+                      let id = data.tracks[count].id;
+                      let track_name = data.tracks[count].name;
+                      let album_name = data.tracks[count].album.name;
+                      console.log("id="+id+ "artist : " + artist_name + " name:"+track_name + " album : " + album_name);
+
+                      tracks[count] = new Track(track_name, artist_name,album_name,id);
+                      count++;
+                    }
+                  }
+                }); // End of Spotify ajax call
+              }
+            }); // End of Spotify ajax call
+            this.apiService.envoyerRecherche(tracks);
             }
             break;
           //Regroupement des données par album
