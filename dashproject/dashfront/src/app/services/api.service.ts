@@ -47,26 +47,5 @@ export class ApiService {
     return this.httpClient.get<Tokens>('http://localhost:3080/Token');
   }
 
-  GetMusiques(type_recherche: number){
-	let _url: string = "";
-    	switch(type_recherche){
-      		case 0: //GET BY TRACK
-
-        	break;
-      		case 1: //ARTISTE
-        _url = 'https://api.spotify.com/v1/artists/id';
-        	break;
-      		case 2: //ALBUM
-        _url = 'https://api.spotify.com/v1/albums/id';
-        	break;
-    	}
-    	//requete
-
-    	//console.log(this.httpClient.get('${_url}'));
-    	//return this.httpClient.get('${_url}');
-	}
-
-
-
 
 }

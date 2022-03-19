@@ -3,6 +3,7 @@ import { ApiService } from './../../services/api.service';
 import * as $ from "jquery";
 import { Tokens } from '../../models/Tokens';
 import { Track } from '../../models/Track';
+import { Subject, Observable } from 'rxjs';
 
 
 @Component({
@@ -18,26 +19,24 @@ export class RechercheComponent{
   Musiques:any = [];
   urlPlayer:String = "https://open.spotify.com/embed/track/63Ip2RzAZTzdKNxAhFPNxh";
 
-  selectedType: String = ""; //Type de recherche sélectionné
+  selectedType: String = "titre"; //Type de recherche sélectionné
   searchbarPlaceHolderText: string = "un titre";
   accessToken!: String;
 
+  constructor(protected apiService: ApiService) {}
+  ngOnInit(): void{}
 
-
-  constructor(private apiService: ApiService) {}
-
-
-  ngOnInit(): void{
-    //this.getToken();
-  }
-
-
-  getToken(): void{
+  /*
+    getToken() méthode pour récupérer un token d'accès
+  */
+  getToken(): Observable<string>{
+    var subject = new Subject<string>();
     this.apiService.getNewToken()
       .subscribe(tok => {
           console.log("getToken() : token obtenu -> " + tok.token);
-          this.accessToken = tok.token;
+          subject.next(tok.token);
       });
+    return subject.asObservable();
   }
 
 	/*
@@ -48,71 +47,126 @@ export class RechercheComponent{
 	*/
   @HostListener('clickRechercher')
 	clickRechercher(value: string): void {
+    this.getToken()
+      .subscribe( token => {
 
-    this.getToken();
+        //Recherche en fonction du critère selectionné
+        switch(this.selectedType)
+        {
+          //Regroupement des données par titre
+          case "titre": {
+              let tracks: Track[] = [];
+              // Make Spotify API call
+              // Note: We are using the track API endpoint.
+              let search_query = encodeURI(value);
+              console.log("Recherche de " + search_query + " type sélectiooné : "+ this.selectedType +" avec token " + token);
+              $.ajax({
+                url: `https://api.spotify.com/v1/search?q=${search_query}&type=track`,
+                type: 'GET',
+                headers: {
+                    'Authorization' : 'Bearer ' + token
+                },
+                success: function(data: any) {
 
-    //this.click();
-    /*this.accessToken = this.apiService.accessToken;
-    console.log("Token dans recherche : " + this.accessToken);
-    let search_query = encodeURI('megadose');*/
-    // Make Spotify API call
-    // Note: We are using the track API endpoint.
-    /*$.ajax({
-      url: `https://api.spotify.com/v1/search?q=${search_query}&type=track`,
-      type: 'GET',
-      headers: {
-          'Authorization' : 'Bearer ' + this.accessToken
-      },
-      success: function(data: any) {
-        // Load our songs from Spotify into our page
-        let num_of_tracks = data.tracks.items.length;
-        let count = 0;
-        // Max number of songs is 12
-        const max_songs = 12;
-        while(count < max_songs && count < num_of_tracks){
-          // Extract the id of the FIRST song from the data object
-          let id = data.tracks.items[count].id;
-          let name = data.tracks.items[count].name;
-          let track_number = data.tracks.items[count].track_number;
-          console.log("id="+id+ " name:"+name, " tracknumb :" + track_number);
-          // Constructing two different iframes to embed the song
-          //let src_str = `https://open.spotify.com/embed/track/${id}`;
-          //let iframe = `<div class='song'><iframe src=${src_str} frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></div>`;
-          //let parent_div = $('#song_'+ count);
-          //parent_div.html(iframe);
-          count++;
+                  // Load our songs from Spotify into our page
+                  let num_of_tracks = data.tracks.items.length;
+                  let count = 0;
+                  // Max number of songs is 12
+                  const max_songs = 12;
+                  while(count < max_songs && count < num_of_tracks){
+                    // Extract the id of the FIRST song from the data object
+                    let id = data.tracks.items[count].id;
+                    let track_name = data.tracks.items[count].name;
+                    let track_number = data.tracks.items[count].track_number;
+                    let album_name = data.tracks.items[count].album.name;
+                    let artist_name = data.tracks.items[count].artists[0].name;
+                    console.log("id="+id+ "artist : " + artist_name + " name:"+track_name, " tracknumb :" + track_number + " album : " + album_name);
+                    // Constructing two different iframes to embed the song
+                    //let src_str = `https://open.spotify.com/embed/track/${id}`;
+                    //let iframe = `<div class='song'><iframe src=${src_str} frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></div>`;
+                    //let parent_div = $('#song_'+ count);
+                    //parent_div.html(iframe);
+
+                    //Ajout d'une track dans le tableau
+                    tracks[count] = new Track(track_name, artist_name,album_name,id);
+                    count++;
+                  }
+                  //Envoi des tracks au composant résultat recherche
+
+                }
+              }); // End of Spotify ajax call
+              this.apiService.envoyerRecherche(tracks);
+            }
+            break;
+          //Regroupement des données par artiste
+          case "artiste": {
+            
+            }
+            break;
+          //Regroupement des données par album
+          case "album": {
+              let tracks: Track[] = [];
+              // Make Spotify API call
+              // Note: We are using the track API endpoint.
+              let search_query = encodeURI(value);
+              console.log("Recherche de " + search_query + " type sélectiooné : "+ this.selectedType +" avec token " + token);
+              $.ajax({
+                url: `https://api.spotify.com/v1/search?q=${search_query}&type=album`,
+                type: 'GET',
+                headers: {
+                    'Authorization' : 'Bearer ' + token
+                },
+                success: function(data: any) {
+
+                  // Load our songs from Spotify into our page
+                  let num_of_tracks = data.albums.items[0].total_tracks;
+                  let album_id = data.albums.items[0].id;
+                  let album_name = data.albums.items[0].name;
+                  console.log("name : " + album_name + "Number of tracks : " + num_of_tracks + "id: " + album_id);
+
+                  let id_album = encodeURI(album_id);
+                  console.log("Recherche de " + id_album +" avec token " + token);
+
+                  //APPEL DE GET ALBUM TRACK's REQUEST
+                  $.ajax({
+                    url: `https://api.spotify.com/v1/albums/${id_album}/tracks`,
+                    type: 'GET',
+                    headers: {
+                        'Authorization' : 'Bearer ' + token
+                    },
+                    success: function(data: any) {
+
+                      // Load our songs from Spotify into our page
+                      let num_of_tracks = data.items.length;
+                      console.log("Number of tracks : " + num_of_tracks);
+
+
+                      let count = 0;
+                      // Max number of songs is 12
+                      const max_songs = 20;
+                      while(count < max_songs && count < num_of_tracks){
+                        // Extract the id of the FIRST song from the data object
+
+                        let id = data.items[count].id;
+                        let track_name = data.items[count].name;
+                        let track_number = data.items[count].track_number;
+                        //let album_name = "data.items[count].album.name";
+                        let artist_name = data.items[count].artists[0].name;
+                        console.log("id="+id+ "artist : " + artist_name + " name:"+track_name, " tracknumb :" + track_number + " album : " + album_name);
+
+                        tracks[count] = new Track(track_name, artist_name,album_name,id);
+                        count++;
+                      }
+                    }
+                  }); // End of Spotify ajax call
+                }
+              }); // End of Spotify ajax call
+              this.apiService.envoyerRecherche(tracks);
+            }
+            break;
         }
-      }
-    }); // End of Spotify ajax call*/
+      });
 
-
-    switch(this.selectedType)
-    {
-      //Regroupement des données par titre
-      case "titre":
-
-        break;
-      //Regroupement des données par artiste
-      case "artiste":
-
-        break;
-      //Regroupement des données par album
-      case "album":
-
-        break;
-    }
-
-	  /*this.apiService.GetMusiques(typeRecherche).subscribe(res => {
-	    console.log(res);
-	    this.Musiques=res;
-	  });*/
-
-    //En attendant de remplir
-    let tracks: Track[] = [];
-    tracks[0] = new Track("Enter Sandman","Metallica","Blackalbum","uorogjru");
-    tracks[1] = new Track("The God That Failed","Metallica","Blackalbum","uorogjru");
-    //Envoi des tracks au composant résultat recherche
-    this.apiService.envoyerRecherche(tracks);
 	}
 
   //Gére le changement d'état des radio button + met à jour le contenu de la searchbar
