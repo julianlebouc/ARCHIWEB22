@@ -12,8 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MusiqueComponent } from './components/musique/musique.component';
 //import { SearchBarDirectiveDirective } from './components/recherche/search-bar-directive.directive';
 
-
-
+import { SafePipe } from './components/musique/custom-pipe';
 
 @NgModule({
   declarations: [
@@ -22,14 +21,16 @@ import { MusiqueComponent } from './components/musique/musique.component';
     HeaderComponent,
     RechercheComponent,
     FooterComponent,
-    MusiqueComponent
+    MusiqueComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  exports: [SafePipe],
+  providers: [SafePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
