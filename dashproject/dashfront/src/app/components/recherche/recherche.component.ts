@@ -98,6 +98,7 @@ export class RechercheComponent{
               this.apiService.envoyerRecherche(tracks);
             }
             break;
+            
           //Regroupement des données par artiste
           case "artiste": {
             let tracks: Track[] = [];
