@@ -10,10 +10,11 @@ import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl
   styleUrls: ['./musique.component.css']
 })
 export class MusiqueComponent implements OnInit {
-  @Input() track!: Track;
-  src_frame!:string;
+  @Input() track!: Track; //Importation de la classe Track (Contenu des requêtes échangées)
+  src_frame!:string; //Lien brut pour le i-frame du player spotify
+  safeUrl!: SafeResourceUrl; //Lien sécurisé pour le i-frame
 
-  safeUrl!: SafeResourceUrl;
+
   constructor(private safePipe: SafePipe, private domSanitizer: DomSanitizer)
   {
     safePipe = new SafePipe(this.domSanitizer);
@@ -23,6 +24,7 @@ export class MusiqueComponent implements OnInit {
 
   ngOnInit(): void {
     this.src_frame = `https://open.spotify.com/embed/track/${this.track.linkFrame}`;
+    //Sécurisation de l'URL
     this.safeUrl = this.safePipe.transform(this.src_frame, 'resourceUrl');
   }
 }
